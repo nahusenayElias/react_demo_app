@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
   return (
     <div>
-      <h1>Ups, I did it again</h1>
+      <h1>Oops, I did it again</h1>
       <p>{error.statusText || error.message}</p>
       <button onClick={() => navigate(-1)}>Go Back</button>
     </div>

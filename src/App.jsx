@@ -7,6 +7,7 @@ import Persons from './routes/Persons.jsx';
 import Root from './routes/Root.jsx';
 import Users from './routes/Users.jsx';
 import axios from 'axios';
+import PostForm from './components/PostForm.jsx'
 
 function App() {
   const [persons, setPersons] = useState([
@@ -23,6 +24,37 @@ function App() {
      });
   }, []);
 
+  const [postform, setPostform] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5173/postform")
+      .then((res) => {
+        setPostform(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
+  const setPublishedStatus = (id, togglePub) => {
+    const findPost = posts.find((post) => post.id === id); //find post by id
+    const updateStatus = { ...findPost, published: !togglePub }; //combine found post with toggleable published boolean state in a new object
+
+    axios
+      .put(`http://localhost:5173/postform/${id}`, updateStatus) //axios updates published status to a post by id
+      .then((res) => {
+        setPostform(
+          posts.map((post) =>
+            postform.id === id ? { ...postform, published: !togglePub } : post //go through posts, if id found then go into post object and toggle published state
+          )
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -33,6 +65,8 @@ function App() {
         { path: '/about', element: <About /> },
         {path: '/users', element: <Users users={users}/>},
         { path: '/persons', element: <Persons persons={persons} /> },
+        { path: '/postform', element: <PostForm postform={PostForm} /> },
+        
       ],
     },
   ]);

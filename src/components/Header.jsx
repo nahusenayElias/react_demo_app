@@ -21,6 +21,9 @@ const Header = () => {
             <NavLink to="/about">About</NavLink>
           </li>
           <li>
+            <NavLink to="/postform">Post</NavLink>
+          </li>
+          <li>
             <NavLink to="/foxes">ErrorPage</NavLink>
           </li>
         </ul>
