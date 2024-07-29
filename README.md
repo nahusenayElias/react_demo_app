@@ -5,4 +5,6 @@ Post method form with bootstrap. The data entered here will be displayed in json
 
 ```
 
+Json server starts with command 'npm run server'.
+
 ![Alt text](post.png)

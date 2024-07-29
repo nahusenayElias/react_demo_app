@@ -7,7 +7,7 @@ import Persons from './routes/Persons.jsx';
 import Root from './routes/Root.jsx';
 import Users from './routes/Users.jsx';
 import axios from 'axios';
-import PostForm from './components/PostForm.jsx'
+import Post from './components/Post.jsx';
 
 function App() {
   const [persons, setPersons] = useState([
@@ -65,7 +65,7 @@ function App() {
         { path: '/about', element: <About /> },
         {path: '/users', element: <Users users={users}/>},
         { path: '/persons', element: <Persons persons={persons} /> },
-        { path: '/postform', element: <PostForm postform={PostForm} /> },
+        { path: '/post', element: <Post post={Post} /> },
         
       ],
     },
