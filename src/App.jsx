@@ -24,36 +24,59 @@ function App() {
      });
   }, []);
 
-  const [postform, setPostform] = useState([]);
+  const [posts, setPosts] = useState([]);
 
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:5173/post")
+  //     .then((res) => {
+  //       setPostform(res.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
   useEffect(() => {
-    axios
-      .get("http://localhost:5173/postform")
-      .then((res) => {
-        setPostform(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    fetch('http://localhost:3002/posts')
+      .then(response => response.json())
+      .then(data => setPosts(data))
+      .catch(error => console.error('Error fetching the data:', error));
   }, []);
 
-  const setPublishedStatus = (id, togglePub) => {
-    const findPost = posts.find((post) => post.id === id); //find post by id
-    const updateStatus = { ...findPost, published: !togglePub }; //combine found post with toggleable published boolean state in a new object
-
-    axios
-      .put(`http://localhost:5173/postform/${id}`, updateStatus) //axios updates published status to a post by id
-      .then((res) => {
-        setPostform(
-          posts.map((post) =>
-            postform.id === id ? { ...postform, published: !togglePub } : post //go through posts, if id found then go into post object and toggle published state
-          )
-        );
+  const handleUpdatePost = (postId, newPublishedStatus) => {
+    axios.patch(`http://localhost:3002/posts/${postId}`, { published: newPublishedStatus })
+      .then(response => {
+        setPosts(posts.map(post => 
+          post.id === postId ? { ...post, published : newPublishedStatus }  : post
+        ));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(error => console.error('Error updating the post:', error));
   };
+
+
+
+
+
+
+
+
+  // const setPublishedStatus = (id, togglePub) => {
+  //   const findPost = posts.find((post) => post.id === id); //find post by id
+  //   const updateStatus = { ...findPost, published: !togglePub }; //combine found post with toggleable published boolean state in a new object
+
+  //   axios
+  //     .put(`http://localhost:5173/post/${id}`, updateStatus) //axios updates published status to a post by id
+  //     .then((res) => {
+  //       setPostform(
+  //         Post.map((post) =>
+  //           postform.id === id ? { ...postform, published: !togglePub } : post //go through posts, if id found then go into post object and toggle published state
+  //         )
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const router = createBrowserRouter([
     {
@@ -71,7 +94,14 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+  <div>
+      <RouterProvider router={router} />;
+      {posts.map(post => (
+        <Post key={post.id} post={post} onUpdate={handleUpdatePost} />
+      ))}
+    </div>
+  )
 }
 
 export default App;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import postsData from '../db/db.json';
+import postsData from '../db.json';
 
 const Post = ({ post, onUpdate }) => (
   <div>
@@ -31,5 +31,5 @@ const App = () => {
   );
 };
 
-export default Post;
+export default App;
  
