@@ -1,5 +1,6 @@
 import React from "react";
 
+//Post function toggle published/unpublished.
 const Post = ({ posts, togglePublished }) => {
   return (
     <div>
